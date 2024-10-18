@@ -1,0 +1,6 @@
+@TodoInFp_HostAddress = http://localhost:5217
+
+GET {{TodoInFp_HostAddress}}/
+Accept: application/json
+
+###
