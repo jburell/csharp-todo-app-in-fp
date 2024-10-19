@@ -1,9 +1,8 @@
-﻿namespace TodoInFp.Api;
+﻿using TodoInFp.Domain;
 
-public static class TodoApi
+namespace TodoInFp.Api;
+
+public class TodoApi(Workflow workflow)
 {
-  public static void Setup(RouteGroupBuilder builder)
-  {
-    builder.MapGet("/", () => "Hello World!");
-  }
+  public void Setup(RouteGroupBuilder builder) => builder.MapGet("/", workflow.GetTodos);
 }
