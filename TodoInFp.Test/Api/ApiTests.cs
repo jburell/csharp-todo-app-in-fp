@@ -29,7 +29,7 @@ public class ApiTests(WebApplicationFactory<Program> factory)
     List<TodoItem> expected = [new(1)];
     var optionsBuilder = new DbContextOptionsBuilder<TodoDbContext>();
     optionsBuilder.UseSqlite("Data Source=:memory:");
-    using var ctx = new TodoDbContext(optionsBuilder.Options);
+    await using var ctx = new TodoDbContext(optionsBuilder.Options);
     ctx.Database.OpenConnection();
     //ctx.Database.EnsureCreated(); // Kan inte kombineras med Migrate
     ctx.Database.Migrate();
