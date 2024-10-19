@@ -5,8 +5,16 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <UserSecretsId>548899c0-8ee4-4a57-b11f-039cb6e3bf8a</UserSecretsId>
   </PropertyGroup>
 
+  <ItemGroup>
+    <!-- Tell the compiler to copy the SQLite database to the output directory -->
+    <None Update="..\TodoInFp.DbClient\todo.db">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.10" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.10">
