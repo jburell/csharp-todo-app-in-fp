@@ -28,8 +28,8 @@ public class TodoApi(Workflow workflow)
       }
     });
   }
-  
-  public async Task<string> GetRequestBodyAsync(HttpRequest request)
+
+  private async Task<string> GetRequestBodyAsync(HttpRequest request)
   {
     request.EnableBuffering();
     using var reader = new StreamReader(request.Body, Encoding.UTF8, detectEncodingFromByteOrderMarks: false, leaveOpen: true);
