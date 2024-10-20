@@ -6,7 +6,7 @@ using TodoInFp.Domain.DomainObjs;
 
 namespace TodoInFp.Test.Api;
 
-public class ApiTests(WebApplicationFactory<Program> factory)
+public class GetTodosApiTests(WebApplicationFactory<Program> factory)
   : IClassFixture<WebApplicationFactory<Program>>
 {
   [Fact]
