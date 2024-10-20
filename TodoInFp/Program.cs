@@ -1,6 +1,4 @@
-using System.Text.Json;
 using TodoInFp.Api;
-using TodoInFp.Domain;
 using TodoInFp.Setup;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -24,12 +22,8 @@ if (app.Environment.IsDevelopment())
 }
 app.UseHttpsRedirection();
 
-var mapGroup = app.MapGroup("/");
 var workflow = app.Services.GetRequiredService<TodoApi>();
-workflow.Setup(mapGroup);
-mapGroup
-  .WithName("Todo App")
-  .WithOpenApi();
+workflow.Setup(app.MapGroup("/").WithOpenApi());
 
 app.Run();
 

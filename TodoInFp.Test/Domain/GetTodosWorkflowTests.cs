@@ -3,13 +3,8 @@ using TodoInFp.Domain.DomainObjs;
 
 namespace TodoInFp.Test.Domain;
 
-public class WorkflowTests
+public partial class GetTodosWorkflowTests
 {
-  public class FakeItemStore(IQueryable<TodoItem> items) : ITodoItemStore
-  {
-    public IQueryable<TodoItem> GetTodoItems() => items;
-  }
-  
   [Fact]
   public void WhenGettingTodosFromEmptyList_ShouldReturnEmptyList()
   {
