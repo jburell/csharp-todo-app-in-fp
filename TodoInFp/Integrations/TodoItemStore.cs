@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using TodoInFp.DbClient;
 using TodoInFp.Domain;
 using TodoInFp.Domain.DomainObjs;
@@ -29,7 +30,26 @@ public class TodoItemStore : ITodoItemStore
 
   public Result CreateTodoItem(TodoItem item)
   {
-    _todoDb.TodoItems.Add(_modelMapper.Map<TodoItem, ModelItem>(item));
-    return Result.Try(() => _todoDb.SaveChanges());
+    
+    return Result.Try(() =>
+    {
+      var i = _todoDb.TodoItems.Find(item.Id);
+      if (i == null)
+      {
+        _todoDb.TodoItems.Add(_modelMapper.Map<TodoItem, ModelItem>(item));
+        _todoDb.SaveChanges();
+      }
+      else
+      {
+        throw new DbUpdateException("Duplicate item");
+        //Result.Failure("Duplicate item");
+      }
+    }, exception => exception switch
+    {
+      DbUpdateException e => e.InnerException?.Message /*switch
+      {
+        Exception a => Result.Failure(a.Message)
+      },*/
+    });
   }
 }
