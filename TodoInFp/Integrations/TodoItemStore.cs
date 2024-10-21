@@ -30,20 +30,20 @@ public class TodoItemStore : ITodoItemStore
     return _todoDb.TodoItems.Select(i => _todoMapper.Map<ModelItem, TodoItem>(i));
   }
 
-  public Result<int, CreateTodoError> CreateTodoItem(TodoItem item)
+  public Result<TodoItem, CreateTodoError> CreateTodoItem(TodoItem item)
   {
-    return Result.Try<int, CreateTodoError>(() =>
+    return Result.Try<TodoItem, CreateTodoError>(() =>
     {
       _todoDb.TodoItems.Add(_modelMapper.Map<TodoItem, ModelItem>(item));
       _todoDb.SaveChanges();
-      return item.Id;
+      return item;
     }, exception => exception switch
     {
       InvalidOperationException e => e.Message switch
-        {
-          { } err when err.Contains("is already being tracked") => new DuplicateItemError(),
-          _ => new UnknownError()
-        },
+      {
+        { } err when err.Contains("is already being tracked") => new DuplicateItemError(),
+        _ => new UnknownError()
+      },
       _ => new UnknownError()
     });
   }
