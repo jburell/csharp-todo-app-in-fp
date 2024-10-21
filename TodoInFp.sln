@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TodoInFp.Test", "TodoInFp.T
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TodoInFp.DbClient", "TodoInFp.DbClient\TodoInFp.DbClient.csproj", "{BB5CEB53-23D9-4C81-8996-2C3B01C34607}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TodoInFp.Domain", "TodoInFp.Domain\TodoInFp.Domain.csproj", "{B8BB9327-2D7E-4ACB-BD5B-1EECD4CE9616}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{BB5CEB53-23D9-4C81-8996-2C3B01C34607}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BB5CEB53-23D9-4C81-8996-2C3B01C34607}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BB5CEB53-23D9-4C81-8996-2C3B01C34607}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8BB9327-2D7E-4ACB-BD5B-1EECD4CE9616}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8BB9327-2D7E-4ACB-BD5B-1EECD4CE9616}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8BB9327-2D7E-4ACB-BD5B-1EECD4CE9616}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8BB9327-2D7E-4ACB-BD5B-1EECD4CE9616}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
