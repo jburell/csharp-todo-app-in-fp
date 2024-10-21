@@ -1,5 +1,6 @@
 using TodoInFp.Api;
 using TodoInFp.Domain;
+using TodoInFp.Domain.Workflows;
 using TodoInFp.Stores;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<ITodoItemStore>(svc => new TodoItemStore());
-builder.Services.AddSingleton<Workflow>(svc => new Workflow(svc.GetRequiredService<ITodoItemStore>()));
+builder.Services.AddSingleton<GetTodoItemsWorkflow>(svc => new GetTodoItemsWorkflow(svc.GetRequiredService<ITodoItemStore>()));
 
 var app = builder.Build();
 
