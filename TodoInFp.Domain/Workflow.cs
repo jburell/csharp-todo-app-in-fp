@@ -1,10 +1,8 @@
 ﻿namespace TodoInFp.Domain;
 
-using DomainErrors = OneOf<NotFound, Unkown>;
-
 public class Workflow(ITodoItemStore store)
 {
-  public Result<List<TodoItem>, DomainErrors> GetTodoItems()
+  public List<TodoItem> GetTodoItems()
   {
     return store.GetTodoItems();
   }

@@ -30,10 +30,10 @@ public class TodoInFpTests(WebApplicationFactory<Program> factory)
   {
     // Arrange
     List<TodoItem> expected = [new(1)];
-    factory.WithWebHostBuilder(builder =>
+    var client = factory.WithWebHostBuilder(builder =>
       builder.ConfigureServices(services =>
-        services.AddSingleton<ITodoItemStore>(_ => new FakeTodoItemStore(expected))));
-    var client = factory.CreateClient();
+        services.AddSingleton<ITodoItemStore>(_ => new FakeTodoItemStore(expected))))
+      .CreateClient();
     
     // Act
     var res = await client.GetAsync("/");
@@ -50,7 +50,10 @@ public class TodoInFpTests(WebApplicationFactory<Program> factory)
   {
     // Arrange
     List<TodoItem> expected = [new(1), new (3)];
-    var client = factory.CreateClient();
+    var client = factory.WithWebHostBuilder(builder =>
+        builder.ConfigureServices(services =>
+          services.AddSingleton<ITodoItemStore>(_ => new FakeTodoItemStore(expected))))
+      .CreateClient();
     
     // Act
     var res = await client.GetAsync("/");

@@ -5,8 +5,8 @@ namespace TodoInFp.Stores;
 
 public class TodoItemStore : ITodoItemStore
 {
-  public Result<List<TodoItem>, DomainErrors> GetTodoItems()
+  public List<TodoItem> GetTodoItems()
   {
-    return Result.Success([new TodoItem(1), new TodoItem(3)]);
+    return [new TodoItem(1), new TodoItem(3)];
   }
 }
