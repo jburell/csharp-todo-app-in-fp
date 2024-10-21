@@ -1,6 +1,6 @@
 using System.Text.Json;
-using Microsoft.Extensions.DependencyInjection;
 using TodoInFp.Domain;
+using TodoInFp.Test.TestFixtures;
 
 namespace TodoInFp.Test;
 
@@ -9,47 +9,28 @@ public class TodoInFpTests(WebApplicationFactory<Program> factory)
 {
   private readonly TestUtils _utils = new(factory);
   
-  [Fact]
-  public async void ShouldGetHttp200_WhenFetchingTodos()
+  public static IEnumerable<object[]> CreateTestData()
   {
-    // Arrange
-    var client = factory.CreateClient();
-    
-    // Act
-    var res = await client.GetAsync("/");
-
-    // Assert
-    res.StatusCode.Should().Be(HttpStatusCode.OK);
+    yield return
+    [
+      new TestData("Empty result", [])
+    ];
+    yield return
+    [
+      new TestData("One Todo item", [new(3)])
+    ];
+    yield return
+    [
+      new TestData("Two Todo items", [new(1), new(3)])
+    ];
   }
 
-  public class FakeTodoItemStore(List<TodoItem> items) : ITodoItemStore
-  {
-    public List<TodoItem> GetTodoItems() => items;
-  }
-  
-  [Fact]
-  public async void ShouldGetATodoItem_WhenFetchingTodos()
+  [Theory]
+  [MemberData(nameof(CreateTestData))]
+  public async void ShouldGetTodoItems(TestData testData)
   {
     // Arrange
-    List<TodoItem> expected = [new(1)];
-    var client = _utils.CreateHttpClient(expected);
-    
-    // Act
-    var res = await client.GetAsync("/");
-
-    // Assert
-    res.StatusCode.Should().Be(HttpStatusCode.OK);
-    var json = await res.Content.ReadAsStringAsync();
-    var item = JsonSerializer.Deserialize<List<TodoItem>>(json, JsonSerializerOptions.Default);
-    item.Should().BeEquivalentTo(expected);
-  }
-  
-  [Fact]
-  public async void ShouldGetTwoTodoItems_WhenFetchingTodos()
-  {
-    // Arrange
-    List<TodoItem> expected = [new(1), new (3)];
-    var client = _utils.CreateHttpClient(expected);
+    var client = _utils.CreateHttpClient(testData._expected);
     
     // Act
     var res = await client.GetAsync("/");
@@ -58,6 +39,6 @@ public class TodoInFpTests(WebApplicationFactory<Program> factory)
     res.StatusCode.Should().Be(HttpStatusCode.OK);
     var json = await res.Content.ReadAsStringAsync();
     var item = JsonSerializer.Deserialize<List<TodoItem>>(json, JsonSerializerOptions.Default);
-    item.Should().BeEquivalentTo(expected);
+    item.Should().BeEquivalentTo(testData._expected);
   }
 }
