@@ -7,6 +7,8 @@ namespace TodoInFp.Test;
 public class TodoInFpTests(WebApplicationFactory<Program> factory) 
   : IClassFixture<WebApplicationFactory<Program>>
 {
+  private readonly TestUtils _utils = new(factory);
+  
   [Fact]
   public async void ShouldGetHttp200_WhenFetchingTodos()
   {
@@ -30,10 +32,7 @@ public class TodoInFpTests(WebApplicationFactory<Program> factory)
   {
     // Arrange
     List<TodoItem> expected = [new(1)];
-    var client = factory.WithWebHostBuilder(builder =>
-      builder.ConfigureServices(services =>
-        services.AddSingleton<ITodoItemStore>(_ => new FakeTodoItemStore(expected))))
-      .CreateClient();
+    var client = _utils.CreateHttpClient(expected);
     
     // Act
     var res = await client.GetAsync("/");
@@ -50,10 +49,7 @@ public class TodoInFpTests(WebApplicationFactory<Program> factory)
   {
     // Arrange
     List<TodoItem> expected = [new(1), new (3)];
-    var client = factory.WithWebHostBuilder(builder =>
-        builder.ConfigureServices(services =>
-          services.AddSingleton<ITodoItemStore>(_ => new FakeTodoItemStore(expected))))
-      .CreateClient();
+    var client = _utils.CreateHttpClient(expected);
     
     // Act
     var res = await client.GetAsync("/");
