@@ -1,4 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
+using OneOf;
 using TodoInFp.Domain;
 using TodoInFp.Domain.DomainObjs;
 
@@ -8,9 +9,9 @@ public class FakeItemStore(IQueryable<TodoItem> items) : ITodoItemStore
 {
   private IQueryable<TodoItem> _items = items;
   public IQueryable<TodoItem> GetTodoItems() => _items;
-  public Result CreateTodoItem(TodoItem item)
+  public Result<int, OneOf<DuplicateItemError, UnknownError>> CreateTodoItem(TodoItem item)
   {
     _items = _items.Append(item);
-    return Result.Success();
+    return item.Id;
   }
 }

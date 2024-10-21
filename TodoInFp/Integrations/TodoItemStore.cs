@@ -6,6 +6,8 @@ using TodoInFp.Domain.DomainObjs;
 
 namespace TodoInFp.Integrations;
 
+using CreateTodoError = OneOf.OneOf<DuplicateItemError, UnknownError>;
+
 using ModelItem = TodoInFp.DbClient.Models.TodoItem;
 
 public class TodoItemStore : ITodoItemStore
@@ -28,28 +30,21 @@ public class TodoItemStore : ITodoItemStore
     return _todoDb.TodoItems.Select(i => _todoMapper.Map<ModelItem, TodoItem>(i));
   }
 
-  public Result CreateTodoItem(TodoItem item)
+  public Result<int, CreateTodoError> CreateTodoItem(TodoItem item)
   {
-    
-    return Result.Try(() =>
+    return Result.Try<int, CreateTodoError>(() =>
     {
-      var i = _todoDb.TodoItems.Find(item.Id);
-      if (i == null)
-      {
-        _todoDb.TodoItems.Add(_modelMapper.Map<TodoItem, ModelItem>(item));
-        _todoDb.SaveChanges();
-      }
-      else
-      {
-        throw new DbUpdateException("Duplicate item");
-        //Result.Failure("Duplicate item");
-      }
+      _todoDb.TodoItems.Add(_modelMapper.Map<TodoItem, ModelItem>(item));
+      _todoDb.SaveChanges();
+      return item.Id;
     }, exception => exception switch
     {
-      DbUpdateException e => e.InnerException?.Message /*switch
-      {
-        Exception a => Result.Failure(a.Message)
-      },*/
+      InvalidOperationException e => e.Message switch
+        {
+          { } err when err.Contains("is already being tracked") => new DuplicateItemError(),
+          _ => new UnknownError()
+        },
+      _ => new UnknownError()
     });
   }
 }
