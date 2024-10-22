@@ -5,7 +5,7 @@ using TodoInFp.Domain.DomainObjs;
 namespace TodoInFp.Domain;
 using CreateTodoError = OneOf<DuplicateItemError, UnknownError>;
 
-public class Workflow(ITodoItemStore store)
+public class GetTodoItemsWorkflow(ITodoItemStore store)
 {
   public IQueryable<TodoItem> GetTodos() => store.GetTodoItems();
 

@@ -30,9 +30,8 @@ public class TodoItemStore : ITodoItemStore
     return _todoDb.TodoItems.Select(i => _todoMapper.Map<ModelItem, TodoItem>(i));
   }
 
-  public Result<TodoItem, CreateTodoError> CreateTodoItem(TodoItem item)
-  {
-    return Result.Try<TodoItem, CreateTodoError>(() =>
+  public Result<TodoItem, CreateTodoError> CreateTodoItem(TodoItem item) =>
+    Result.Try<TodoItem, CreateTodoError>(() =>
     {
       _todoDb.TodoItems.Add(_modelMapper.Map<TodoItem, ModelItem>(item));
       _todoDb.SaveChanges();
@@ -46,5 +45,4 @@ public class TodoItemStore : ITodoItemStore
       },
       _ => new UnknownError()
     });
-  }
 }

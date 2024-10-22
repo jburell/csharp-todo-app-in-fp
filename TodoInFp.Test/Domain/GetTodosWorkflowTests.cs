@@ -10,7 +10,7 @@ public partial class GetTodosWorkflowTests
   {
     // Arrange
     var store = new FakeItemStore(new List<TodoItem>().AsQueryable());
-    var workflow = new Workflow(store);
+    var workflow = new GetTodoItemsWorkflow(store);
     var expected = new List<TodoItem>().AsQueryable();
 
     // Act
@@ -19,13 +19,13 @@ public partial class GetTodosWorkflowTests
     // Assert
     actual.Should().BeEquivalentTo(expected);
   }
-  
+
   [Fact]
   public void WhenGettingTodosFromListWithSingleItem_ShouldReturnListWithOneItem()
   {
     // Arrange
     var store = new FakeItemStore(new List<TodoItem>([new TodoItem(1)]).AsQueryable());
-    var workflow = new Workflow(store);
+    var workflow = new GetTodoItemsWorkflow(store);
     List<TodoItem> expected = [new(1)];
 
     // Act

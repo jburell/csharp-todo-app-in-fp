@@ -10,9 +10,9 @@ public class CreateTodoWorkflowTests
   public void CanCreateTodo()
   {
     // Arrange
-    var expected = Result.Success(2);
+    var expected = Result.Success(new TodoItem(2));
     var store = new FakeItemStore(new List<TodoItem>().AsQueryable());
-    var workflow = new Workflow(store);
+    var workflow = new GetTodoItemsWorkflow(store);
 
     // Act
     var actual = workflow.CreateTodo(new TodoItem(2));

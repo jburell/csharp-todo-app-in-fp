@@ -35,7 +35,7 @@ public static class ServiceFactory
   public static ITodoItemStore CreateTodoItemStore(IServiceProvider svc) =>
     new TodoItemStore(svc.GetRequiredService<TodoDbContext>());
 
-  public static Workflow CreateWorkflow(IServiceProvider svc) => new(svc.GetRequiredService<ITodoItemStore>());
+  public static GetTodoItemsWorkflow CreateWorkflow(IServiceProvider svc) => new(svc.GetRequiredService<ITodoItemStore>());
 
-  public static TodoApi CreateApi(IServiceProvider svc) => new(svc.GetRequiredService<Workflow>());
+  public static TodoApi CreateApi(IServiceProvider svc) => new(svc.GetRequiredService<GetTodoItemsWorkflow>());
 }

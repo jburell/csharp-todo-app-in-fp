@@ -65,7 +65,7 @@ public class CreateTodoApiTests(WebApplicationFactory<Program> factory)
 
     // Assert
     var status = res.StatusCode;
-    status.Should().Be(HttpStatusCode.BadRequest);
+    status.Should().Be(HttpStatusCode.Conflict);
     var getResponse = await client.GetAsync("/"); 
     var jsonString = await getResponse.Content.ReadAsStringAsync();
     var result = JsonSerializer.Deserialize<List<TodoItem>>(jsonString, jsonOpts) ??
